@@ -5,9 +5,17 @@ files
 
 library(readxl)
 library(dplyr)
+
 for (i in 1:length(files)) {
   filename=files[i]
-  data <- read_xlsx(files[i],sheet = 1,col_names = TRUE,n_max = 0, trim_ws = TRUE)
+  infile <- read_xlsx(files[i],sheet = 1,col_names = TRUE,n_max = 0, trim_ws = TRUE)
+
+  
+  mydata <- data.frame(FName=character(),LName=character(),Mobile1=numeric(),Mobile2=numeric(),
+                         DIRECT_LINE=numeric(),CATEGORY=character(),COMPANY=character(),EMAIL=character(),WEBSITE=character(),Gender=character(),DOB=numeric(),Age=character(),Current_Employer=character(),Experience=numeric(),Qualification=character(),Current_Designation=character(),Status=character(),Channel=character(),stringsAsFactors=FALSE)
+  names(mydata)=c("FName","LName","Mobile1","Mobil2","DIRECT_LINE","CATEGORY","COMPANY","EMAIL","WEBSITE","Gender","DOB","Age","Current_Employer ","Experience","Qualification","Current_Designation","Status","Channel")
+  data <- cbind(infile,mydata)
+  
   names(data)[names(data)=="CUSTOMER_NAME"] <- "NAME"
   names(data)[names(data)=="ATH3_NAME_LINE_1"] <- "NAME"
   names(data)[names(data)=="ATH3_ADDR_1"] <- "ADRESS1"
@@ -23,8 +31,8 @@ for (i in 1:length(files)) {
   names(data)[names(data)=="PTH2_321_OFFICE_FAX"] <- "FAX"
   names(data)[names(data)=="PTH2_322_OFFICE_TELEPHONE"] <- "OFF1CE_TELEPHONE"
   names(data)[names(data)=="EXT"] <- "EXT"
-  
   assign(x=files[i],value = data)
   # y <- cat(files[i], sep="\n",names(data))
 }
 
+View(data)
